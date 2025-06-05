@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buscados por la Justicia - Policía Nacional del Perú (Tema Oscuro)</title>
+  <style>
+    :root {
+      --color-bg: #121212;
+      --color-bg-alt: #1e1e1e;
+      --color-text-primary: #e0e0e0;
+      --color-text-secondary: #a0a0a0;
+      --color-primary: #4f8bff;
+      --color-primary-dark: #3564bf;
+      --color-border: #333333;
+      --color-shadow: rgba(0, 0, 0, 0.8);
+      --border-radius: 12px;
+      --transition-speed: 0.3s;
+
+      /* Light Section colors for call section */
+      --call-bg: #ffffff;
+      --call-text-primary: #111827;
+      --call-text-secondary: #6b7280;
+      --call-primary: #111827;
+      --call-primary-hover: #374151;
+      --call-shadow: rgba(0, 0, 0, 0.1);
+      --call-border-radius: 12px;
+      --call-font-header: 'Poppins', sans-serif;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+    }
+
+    header {
+      background-color: #0a2342;
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      gap: 20px;
+      box-shadow: 0 2px 8px var(--color-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header img {
+      height: 80px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px var(--color-primary);
+    }
+
+    header div {
+      flex: 1;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      user-select: none;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      color: var(--color-text-secondary);
+      user-select: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .buscado {
+      background-color: var(--color-bg-alt);
+      border: 2px solid var(--color-border);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px rgba(79, 139, 255, 0.2);
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      color: var(--color-text-primary);
+      transition: box-shadow var(--transition-speed), transform var(--transition-speed), border-color var(--transition-speed);
+      cursor: default;
+      user-select: none;
+    }
+
+    .buscado:hover,
+    .buscado:focus-within {
+      border-color: var(--color-primary);
+      box-shadow: 0 8px 25px rgba(79, 139, 255, 0.5);
+      transform: translateY(-5px);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .buscado img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px var(--color-primary);
+      user-select: none;
+    }
+
+    .buscado h2 {
+      font-size: 1.5rem;
+      margin: 10px 0 5px;
+      color: var(--color-primary);
+      font-weight: 700;
+      user-select: text;
+    }
+
+    .delitos {
+      color: #ff6b6b;
+      font-weight: 700;
+      margin: 5px 0;
+      user-select: text;
+    }
+
+    .recompensa {
+      font-size: 1.1rem;
+      color: #4caf50;
+      margin: 10px 0;
+      user-select: text;
+    }
+
+    .btn {
+      margin-top: 8px;
+      background-color: var(--color-primary);
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background-color var(--transition-speed), transform var(--transition-speed);
+      user-select: none;
+      box-shadow: 0 4px 12px rgba(79, 139, 255, 0.6);
+    }
+
+    .btn:hover,
+    .btn:focus {
+      background-color: var(--color-primary-dark);
+      outline: none;
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(79, 139, 255, 0.9);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1100;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      background-color: var(--color-bg-alt);
+      margin: 8% auto;
+      padding: 24px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 520px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(79, 139, 255, 0.6);
+      color: var(--color-text-primary);
+      user-select: text;
+    }
+
+    .modal-content img {
+      width: 100%;
+      max-height: 260px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 10px;
+      box-shadow: 0 0 18px var(--color-primary);
+      user-select: none;
+    }
+
+    .modal-content audio {
+      margin-top: 15px;
+      width: 100%;
+      outline-offset: 2px;
+      border-radius: 6px;
+      background-color: var(--color-bg);
+    }
+
+    .close {
+      color: var(--color-text-secondary);
+      float: right;
+      font-size: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: color 0.3s;
+      user-select: none;
+      background: transparent;
+      border: none;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: var(--color-primary);
+      outline: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 20px;
+      color: var(--color-text-secondary);
+      background-color: #0a2342;
+      user-select: none;
+      font-size: 0.9rem;
+      box-shadow: inset 0 1px 2px #154783;
+      position: relative;
+      margin-top: 40px;
+    }
+
+    /* New Call Section */
+    .call-section {
+      max-width: 700px;
+      margin: 60px auto 40px;
+      background-color: var(--call-bg);
+      border-radius: var(--call-border-radius);
+      box-shadow: 0 8px 24px var(--call-shadow);
+      padding: 3rem 2rem;
+      text-align: center;
+      font-family: var(--call-font-header);
+      color: var(--call-text-primary);
+      user-select: none;
+    }
+
+    .call-section h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .call-section p {
+      font-size: 1.25rem;
+      color: var(--call-text-secondary);
+      margin-bottom: 2rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .call-section button.cta-button {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 1.25rem;
+      background-color: var(--call-primary);
+      color: white;
+      padding: 0.75rem 3rem;
+      border-radius: 0.75rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      user-select: text;
+      box-shadow: 0 8px 16px var(--call-shadow);
+    }
+
+    .call-section button.cta-button:hover,
+    .call-section button.cta-button:focus {
+      background-color: var(--call-primary-hover);
+      outline: none;
+      transform: scale(1.05);
+    }
+
+    @media (min-width: 640px) {
+      header h1 {
+        font-size: 2.75rem;
+      }
+      .call-section h2 {
+        font-size: 4rem;
+      }
+      .call-section p {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Tooltip for copy feedback */
+    .tooltip {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--call-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-family: var(--call-font-header);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1200;
+      user-select: none;
+    }
+
+    .tooltip.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="img/escudo-pnp.png" alt="Escudo PNP" />
+    <div>
+      <h1>Policía Nacional del Perú</h1>
+      <p>Lista de requisitoriados por la justicia</p>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <article class="buscado" role="article" aria-labelledby="buscado1" tabindex="0">
+      <img src="img/dibujito.jpg" alt="Nicolas Vargas" />
+      <h2 id="buscado1">Nicolas Vargas</h2>
+      <p class="delitos">Alias: Dibujito</p>
+      <p class="recompensa">Suplantación de identidad a actores de Hollywood</p>
+      <p class="recompensa">Recompensa ofrecida: S/200,000</p>
+      <button class="btn" onclick="mostrarModal('modal1')" aria-haspopup="dialog" aria-controls="modal1" aria-expanded="false">Ver más</button>
+    </article>
+
+    <article class="buscado" role="article" aria-labelledby="buscado2" tabindex="0">
+      <img src="img/shupapi.jpg" alt="Jose Miguel Vega Supo" />
+      <h2 id="buscado2">Jose Miguel Vega Supo</h2>
+      <p class="delitos">Alias: Shupapi</p>
+      <p class="recompensa">Por calatearse en lugares públicos</p>
+      <p class="recompensa">Recompensa ofrecida: S/500,000</p>
+      <button class="btn" onclick="mostrarModal('modal2')" aria-haspopup="dialog" aria-controls="modal2" aria-expanded="false">Ver más</button>
+    </article>
+
+    <article class="buscado" role="article" aria-labelledby="buscado3" tabindex="0">
+      <img src="img/rodrogo.jpg" alt="Rodrigo Cuadros" />
+      <h2 id="buscado3">Rodrigo Cuadros</h2>
+      <p class="delitos">Alias: Rodrogo</p>
+      <p class="recompensa">Venta de droga barata, organizador de eventos turbios</p>
+      <p class="recompensa">Recompensa ofrecida: S/1,000,000</p>
+      <button class="btn" onclick="mostrarModal('modal3')" aria-haspopup="dialog" aria-controls="modal3" aria-expanded="false">Ver más</button>
+    </article>
+
+    <article class="buscado" role="article" aria-labelledby="buscado4" tabindex="0">
+      <img src="img/kirby.jpg" alt="Aron Andia" />
+      <h2 id="buscado4">Aron Andia</h2>
+      <p class="delitos">Alias: Kirby</p>
+      <p class="recompensa">Secuestrador de menores</p>
+      <p class="recompensa">Recompensa ofrecida: S/150,000</p>
+      <button class="btn" onclick="mostrarModal('modal4')" aria-haspopup="dialog" aria-controls="modal4" aria-expanded="false">Ver más</button>
+    </article>
+
+    <article class="buscado" role="article" aria-labelledby="buscado5" tabindex="0">
+      <img src="img/pasivo.jpg" alt="Dylan Delgado" />
+      <h2 id="buscado5">Dylan Delgado</h2>
+      <p class="delitos">Alias: Pasivo</p>
+      <p class="recompensa">Participación en shows clandestinos</p>
+      <p class="recompensa">Recompensa ofrecida: S/1</p>
+      <button class="btn" onclick="mostrarModal('modal5')" aria-haspopup="dialog" aria-controls="modal5" aria-expanded="false">Ver más</button>
+    </article>
+  </main>
+
+  <!-- Call to Action Section -->
+  <section class="call-section" aria-label="Contacto si encontró a los buscados">
+    <h2>¿Los encontraste?</h2>
+    <p>Si has visto a alguna de estas personas o sabes de su paradero, por favor copia el número y llama inmediatamente:</p>
+    <button class="cta-button" id="copyPhoneBtn" aria-describedby="copyTooltip" aria-live="polite" aria-atomic="true">📞 949 707 258</button>
+    <div id="copyTooltip" class="tooltip" role="alert" aria-hidden="true">Número copiado al portapapeles</div>
+  </section>
+
+  <!-- Modales con audio -->
+  <div id="modal1" class="modal" role="dialog" aria-labelledby="modal1-title" aria-modal="true" tabindex="-1">
+    <div class="modal-content">
+      <button class="close" aria-label="Cerrar modal" onclick="cerrarModal('modal1')">&times;</button>
+      <h2 id="modal1-title">Nicolas Vargas - "Dibujito"</h2>
+      <img src="img/dibujito.jpg" alt="Más de Dibujito" />
+      <audio controls>
+        <source src="audio/dibujito.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el audio.
+      </audio>
+    </div>
+  </div>
+
+  <div id="modal2" class="modal" role="dialog" aria-labelledby="modal2-title" aria-modal="true" tabindex="-1">
+    <div class="modal-content">
+      <button class="close" aria-label="Cerrar modal" onclick="cerrarModal('modal2')">&times;</button>
+      <h2 id="modal2-title">Jose Miguel Vega Supo - "Shupapi"</h2>
+      <img src="img/shupapi.jpg" alt="Más de Shupapi" />
+      <audio controls>
+        <source src="audio/shupapi.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el audio.
+      </audio>
+    </div>
+  </div>
+
+  <div id="modal3" class="modal" role="dialog" aria-labelledby="modal3-title" aria-modal="true" tabindex="-1">
+    <div class="modal-content">
+      <button class="close" aria-label="Cerrar modal" onclick="cerrarModal('modal3')">&times;</button>
+      <h2 id="modal3-title">Rodrigo Cuadros - "Rodrogo"</h2>
+      <img src="img/rodrogo.jpg" alt="Más de Rodrogo" />
+      <audio controls>
+        <source src="audio/rodrogo.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el audio.
+      </audio>
+    </div>
+  </div>
+
+  <div id="modal4" class="modal" role="dialog" aria-labelledby="modal4-title" aria-modal="true" tabindex="-1">
+    <div class="modal-content">
+      <button class="close" aria-label="Cerrar modal" onclick="cerrarModal('modal4')">&times;</button>
+      <h2 id="modal4-title">Aron Andia - "Kirby"</h2>
+      <img src="img/kirby.jpg" alt="Más de Kirby" />
+      <audio controls>
+        <source src="audio/kirby.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el audio.
+      </audio>
+    </div>
+  </div>
+
+  <div id="modal5" class="modal" role="dialog" aria-labelledby="modal5-title" aria-modal="true" tabindex="-1">
+    <div class="modal-content">
+      <button class="close" aria-label="Cerrar modal" onclick="cerrarModal('modal5')">&times;</button>
+      <h2 id="modal5-title">Dylan Delgado - "Pasivo"</h2>
+      <img src="img/pasivo.jpg" alt="Más de Pasivo" />
+      <audio controls>
+        <source src="audio/pasivo.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el audio.
+      </audio>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Policía Nacional del Perú. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    function mostrarModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.style.display = 'block';
+      modal.querySelector('.close').focus();
+      // Update button aria-expanded attribute to true
+      const btns = document.querySelectorAll('button.btn');
+      btns.forEach(btn => {
+        const controls = btn.getAttribute('aria-controls');
+        if (controls === id) {
+          btn.setAttribute('aria-expanded', 'true');
+        } else {
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    function cerrarModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.style.display = 'none';
+      // Reset aria-expanded attribute on corresponding button
+      const btns = document.querySelectorAll('button.btn');
+      btns.forEach(btn => {
+        const controls = btn.getAttribute('aria-controls');
+        if (controls === id) {
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
+        }
+      });
+    }
+
+    window.onclick = function(event) {
+      const modales = document.querySelectorAll('.modal');
+      modales.forEach(modal => {
+        if (event.target === modal) {
+          cerrarModal(modal.id);
+        }
+      });
+    };
+
+    window.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        const modales = document.querySelectorAll('.modal');
+        modales.forEach(modal => {
+          if (modal.style.display === 'block') {
+            cerrarModal(modal.id);
+          }
+        });
+      }
+    });
+
+    // Copy phone number to clipboard logic with tooltip feedback
+    const copyBtn = document.getElementById('copyPhoneBtn');
+    const tooltip = document.getElementById('copyTooltip');
+    const phoneNumber = '949707258';
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(phoneNumber).then(() => {
+        // Show tooltip
+        tooltip.setAttribute('aria-hidden', 'false');
+        tooltip.classList.add('show');
+        // Hide tooltip after 2.5 seconds
+        setTimeout(() => {
+          tooltip.setAttribute('aria-hidden', 'true');
+          tooltip.classList.remove('show');
+        }, 2500);
+      }).catch(() => {
+        alert('No se pudo copiar el número. Por favor, cópialo manualmente: ' + phoneNumber);
+      });
+    });
+  </script>
+</body>
+</html>
+
